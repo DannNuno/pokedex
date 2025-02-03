@@ -1,20 +1,33 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ng-container *ngIf="listPokemones.length > 0; else loading">
+    <ion-card
+      *ngFor="let item of listPokemones"
+      (click)="handleDetail(item.url)"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ item.name | titlecase }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ng-container>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="selectedPokemon">
+    <ion-card-header>
+      <ion-card-title>{{ selectedPokemon.name | titlecase }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img *ngIf="selectedPokemon.sprites" [src]="selectedPokemon.sprites.front_default"></ion-img>
+      <p *ngIf="selectedPokemon.weight">Peso: {{ selectedPokemon.weight }}</p>
+      <p *ngIf="selectedPokemon.height">Altura: {{ selectedPokemon.height }}</p>
+      <p *ngIf="selectedPokemon.abilities">Habilidades:</p>
+      <ul>
+        <li *ngFor="let ability of selectedPokemon.abilities">
+          {{ ability.ability.name }}
+        </li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ng-template #loading>
+    <ion-spinner></ion-spinner>
+  </ng-template>
 </ion-content>
