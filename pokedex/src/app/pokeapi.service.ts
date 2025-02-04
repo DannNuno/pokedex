@@ -3,21 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PokeapiService {
-  private apiUrl = 'https://pokeapi.co/api/v2/pokemon';
-  private limit = 50;
-  private offset = 0;
+  private apiUrl="https://pokeapi.co/api/v2/pokemon/";
+  private limit=1000;
+  private offset=0;
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
-
-  getListPokemones(): Observable<any> {
+  getListPokemones(): Observable<any>{
     return this.http.get(`${this.apiUrl}?limit=${this.limit}&offset=${this.offset}`);
+
   }
 
-  getDetailPokemones(urlPokemon: string): Observable<any> {
-    console.log("Llamando API para obtener detalles:", urlPokemon); 
-    return this.http.get(urlPokemon);
-  }  
+  getDetailPokemon(urlPokemon:any):Observable<any>{
+    return this.http.get(urlPokemon)
+  }
+  getPokemonById(id: string): Observable<any> {
+    return this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  }
+  
 }

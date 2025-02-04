@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title [ngStyle]="{ 'color': titleColor }">
+      {{ pokemon?.name | titlecase }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="detail-container" *ngIf="pokemon; else loading">
+    
+    <!-- Imagen del Pokémon -->
+    <ion-img [src]="pokemon?.sprites?.front_default" alt="{{ pokemon?.name }}"></ion-img>
+
+    <!-- Detalles básicos -->
+    <p><strong>Altura:</strong> {{ pokemon?.height / 10 }} m</p>
+    <p><strong>Peso:</strong> {{ pokemon?.weight / 10 }} kg</p>
+
+    <!-- Tipos -->
+    <p><strong>Tipos:</strong></p>
+    <div class="types-container">
+      <span *ngFor="let type of pokemon?.types" class="type-badge" [ngStyle]="{ 'background-color': getTypeColor(type.type.name) }">
+        {{ type.type.name | titlecase }}
+      </span>
+    </div>
+
+    <!-- Estadísticas -->
+    <p><strong>Estadísticas:</strong></p>
+    <ul class="stats-container">
+      <li *ngFor="let stat of pokemon?.stats">
+        <strong>{{ stat.stat.name | titlecase }}:</strong> {{ stat.base_stat }}
+        <div class="stat-bar">
+          <div class="stat-fill" [ngStyle]="{ 'width': stat.base_stat + '%' }"></div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Movimientos -->
+    <p><strong>Movimientos Principales:</strong></p>
+    <ul>
+      <li *ngFor="let move of pokemon?.moves.slice(0, 5)">
+        {{ move.move.name | titlecase }}
+      </li>
+    </ul>
+
+  </div>
+
+  <ng-template #loading>
+    <ion-spinner name="crescent"></ion-spinner>
+  </ng-template>
+</ion-content>
